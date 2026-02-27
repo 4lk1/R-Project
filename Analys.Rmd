@@ -1,0 +1,428 @@
+---
+title: "R Project"
+author: "Alki Leka & Kristina Muca"
+output: html_notebook
+---
+
+                                                            Permbajtja
+Ne kete projekt eshte marre ne studim nje databaze e cila permban te dhena ne lidhje me punesimin ne pozicionin Data Analyst dhe cdo nenpozicion i cili ka lidhje me te. Ne databaze jane paraqitur 1194 te dhena te cilat jane marre ne shqyrtim me poshte. Ne te dhenat e paraqitura kemi 8 ndryshore cilesore dhe 3 ndryshore sasiore. Ndryshoret jane paraqitur respektivisht si me poshte:
+
+-`Job Title` ----------------- Ndryshore cilesore
+
+-`Average Salary $` ---------- Ndryshore sasiore
+
+-`Rating` -------------------- Ndryshore cilesore
+
+-`Company Name` -------------- Ndryshore cilesore
+
+-`Location` ------------------ Ndryshore cilesore
+
+-`Headquarters` -------------- Ndryshore cilesore
+
+-`Number of employes` -------- Ndryshore sasiore
+
+-`Founded` ------------------- Ndryshore cilesore
+
+-`Industry` ------------------ Ndryshore cilesore
+
+-`Sector` -------------------- Ndryshore cilesore
+
+-`Average Revenue $` --------- Ndryshore sasiore
+
+Kjo databazë është marrë ne shqyrtim pasi fusha në të cilën ne po kryejmë studimet ka një lidhje të fortë me të dhënat dhe databazat, sigurisht duke marrë në konsidratë dhe profilin e specializimit që do të kryhet në një moment të mëvonshëm. Ky projekt na mundëson të kuptojmë dhe të krijojmë një ide mbi kërkesat dhe veprimtaritë të cilat mund të kërkohen në lidhje me profilet e punës dhe specializimet të cilat mund të ndiqen në fushën e studimeve statistikore. 
+
+Databaza e përzgjedhur, përvec faktorit studiues, është përzgjedhur dhe për faktorin informues. Duke qënë se kjo databaze ka marrë në studim dhe ka paraqitur një studim të përmbledhur rreth pozicionit si Data Analyst në kompani, industri dhe sektorë të ndryshëm, si dhe është një databazë e cila është paraqitur brenda 5 viteve të fundit, kjo na tregon se kjo databazë është koherente. Duke marrë parasysh faktet e sipërpërmendura ne mundemi që, falë kësaj databaze si dhe studimit të saj në projekt të përcaktojmë:
+
+-Pagesat minimale dhe maksimale koherente të profilit Data Analyst.
+-Lokacionet kryesore të ushtrimit të ketij profili.
+-Kompanitë dhe pagesat respektive për cdo pozicion të ofruar nga cdo kompani.
+-Sektorët me kërkesat më të larta sipas profilit të punës.
+
+                                          Le të fillojmë me studimin e databazës
+                              
+Për të kryer studimet e nevojshme si fillim ne duhet të instalojmë dhe të therrasim disa paketa funksionesh të ndryshme të cilët na mundësojnë përmbledhjet dhe vizualizimet e të dhënave falë grafikëve dhe/ose tabelave të ndryshme.
+
+Pas instalimit të paketave të nevojshme, ne përcaktojmë dhe thërrasim databazën, falë një funksioni, në mënyrë që të vijojmë me studimin e saj.
+
+```{r}
+
+#install.packages("dplyr") 
+library(dplyr)               #Kjo paketë mundeson manipulimin e të dhënave dhe paraqitjen e tyre në mënyrë tabelore.
+
+#install.packages("tidyr") 
+library(tidyr)               #Kjo pakete mundeson manipulimin e te dhenave.
+
+#install.packages("ggplot2") 
+library(ggplot2)    #Kjo pakete mundeson krijimin e grafikeve bazuar ne te dhenat e paraqitura.
+
+#install.packages("knitr")
+library(knitr)      #Kjo pakete mundeson manipulimin e te dhenave ne menyre tabelore.
+
+#install.packages("ggpubr") 
+library(ggpubr)     #Kjo pakete mundeson nje pordorim sa me te gjere dhe te mire te paketes ggplot2.
+
+#install.packages("readr") 
+library(readr)      #Kjo pakete mundeson leximin e te dhenave te ndryshme te importuara nga dokumente te jashtem.
+
+#install.packages("readxl") 
+library(readxl)     #Kjo pakete mundeson leximin e te dhenave te paraqitura nga Excel-i.
+
+#install.packages("readxl") 
+library(esquisse)   #Kjo pakete mundeson interaktivitetin ndermjet pordoruesve dhe grafikeve te ndertuar.
+
+data.analyst <- read_excel("C:/Users/User/OneDrive/Desktopi/R Project/Data.Analyst.xlsx")
+head(data.analyst)
+
+```
+                                    
+                                                          Njohja me ndryshoret
+                                                            
+Pas instalimit të paketave shohim disa nga karakteristikat kryesore si dhe një paraqitje të shkurtër të të dhënave. Kjo mund të kryhet duke përdorur funksionin str. 
+
+```{r}
+
+str(data.analyst)
+
+```
+Shohim që funksioni str ka shfaqur të gjithë ndryshoret e databazës si dhe ka paraqitur disa të dhëna përkundrejt cdo ndryshorje. Këto të dhëna përfshijnë: përcaktimin e vleres(nëse ajo është vlerë numerike apo tekst/karakter), shtrirjen e të dhënave përkundrejt secilës ndryshore në databazë si dhe ka shfaqur disa nga vlerat e ndodhura në disa nga rreshtat e parë të databazës.
+
+                                                         Studimi i ndryshoreve
+
+Duke qënë se ne arritëm të përcaktojmë disa nga të dhënat e databazës si dhe arritëm te shohim disa vlera dhe karaktere konkretë të databazës, në vazhdim ne do të analizojmë të gjithë databazën në bazë të ndryshoreve të sipërpërmendura.
+
+
+-Si fillim le të marrim në shqyrtim të dhënat e paraqitura në lidhje me pagat mesatare të punonjësve.
+
+```{r}
+
+salary=data.analyst$`Average Salary $`
+summary(salary)
+
+```
+#Duke përdorur funksionin e mësipërm (summary()), ne arrijmë të shohim që paga mesatare e një punonjësi të profilit Data Analyst varion rreth vlerës 71'418 $, ku vlera minimale është 33'500 $ dhe ajo maksimale është 150'000 $. 
+
+
+-Marrim në vrojtim të dhënat mbi vlerësimet e kompanive.
+
+```{r}
+
+Rating=data.analyst$Rating
+summary(Rating)
+
+```
+Nga vlerësimi i bërë shohim që vlerësimi mesatar i kompanive është 3.739/5. Vlerësimi minimal është 1.8 ndërsa ai maksimal është 5. Nga vlerësimi i bëre falë këtyre të dhënave ne arrijmë në konkluzionin që kompanite qe ofrojne kete profil pune jane kompani me vleresime kryesisht pozitive.
+
+
+-Marrim ne studim numrin e punonjesve te kompanive (vlen te permendet fakti qe numri i punonjesve eshte kufizuar nga 0-10000, ky kufizim vjen per faktin se disa kompani nuk kane publikuar nje numer ekzakt te punonjesve)
+
+```{r}
+
+employes=data.analyst$`Number of employes`
+summary(employes)
+
+```
+Kjo analize na tregon se numri mesatar i funonjesve te nje kompanie eshte 4599 punonjes. Nga kjo analize ne shohim qe numri minimal i punonjesve te nje kompanie eshte 50 punonjes nderkohe qe ai maksimali eshte 10000 punonjes.
+
+
+-Marrim ne analize fitimet mesatare vjetore te kompanive
+
+```{r}
+
+revenue=data.analyst$`Average Revenue $`
+summary(revenue)
+
+```
+#Nga analiza e te dhenave ne shohim qe fitimi mesatar vjetor i kompanive eshte 16'540'000'000 $. Gjithashtu ne mund te shohim qe fitimi minimal vjetor i kompanive te marra ne shqyrtim eshte 3'000'000 $ dhe ai maksimal eshte 10'000'000'000 $.
+
+                                                 Studimi i disa karakteristikave
+
+Ne studimin ne vijime ne do te mund te studiojme cdo ndryshore te databazes, qofte ajo ndryshore cilesore apo sasiore.
+
+
+-Se pari le te analizojme disa te dhena cilesore
+
+```{r}
+
+job_title=data.analyst$`Job Title`
+
+industry=data.analyst$Industry
+
+sector=data.analyst$Sector
+
+length(which(job_title=='Data Analyst'))
+
+length(which(industry=='IT Services'))
+
+length(which(sector=='Information Technology'))
+
+```
+Nga te dhenat e mesiperme ne mund te percaktojme numrin specifik te disa nga profilet e punes te cilat ofrohen nga kompani te ndryshme:
+
+-Data Analyst - rreth 199 punonjes ofrojne sherbimet e tyre ne kete profil
+
+-IT Services - rreth 247 punonjes ofrojne sherbimet e tyre ne kete profil
+
+-Data Analyst - rreth 390 punonjes ofrojne sherbimet e tyre ne kete profil
+
+Nga keto te dhena ne arrime ne perfundimin qe profili me i kerkuar eshte Data Analyst.
+
+
+-Le te analizojme ne menyre tabelore vitet e themelimit.
+```{r}
+
+Founded=data.analyst$Founded
+table(Founded)
+
+```
+Nga funksioni table ne arrijme te marrim ne menyre tabelore te dhenat rreth viteve dhe numrit te kompanive te themeluara ne ate vit. Shohim qe viti ne te cilin jane themeluar me shume kompani eshte viti 2000 me rreth 50 kompani te reja te themeluara.
+
+
+-Le te bejme nje permbledhje te te gjitha ndryshoreve te databazes.
+```{r}
+
+summary(data.analyst)
+
+```
+Nga ky funksion permbledhes i databazes ne shohim qe paraqiten te gjitha ndryshoret e databazes dhe disa nga te dhenat specifike studiuese per secilen ndryshore.
+
+                                               Ndertimi i Grafikerve te Ndryshorev
+
+Ne vazhdim ne, perkundrejt paraqitjeve tabelore, do te kryejme dhe disa paraqitje vizuale te te dhenave fale grafikeve.
+
+-Le te ndertojme grafikun e vleresimeve ne lidhje me velresimet dhe numrin e kompanive te cilat i perkasin atyre vleresimeve.
+```{r}
+
+barplot(table(Rating), col = c("red","blue","yellow","orange","skyblue","pink","#ff2052","#8a2be2","#004225","#cd7f32","#a52a2a","#cc5500","#deb887","#5f9ea0","#a3c1ad","#c41e3a","#36454f","#ffa700","#a9a9a9","#71bc78","#fcc200","#663854","#da9100","#808000","#b2ec5d","#5a4fcf","#00a86b","#a50b5e","#26619c","#ccccff","#b5651d","#ffbd88"), xlab = "Vleresimet", ylab = "Numri i kompanive", main = "Grafiku i vleresimeve")
+
+```
+Nga kjo paraqitje vizuale ne mund te shohim qe vleresimi 3.9 eshte arritur ne shume kompani.
+
+
+-Le te ndertojme nje grafik i cili paraqet lidhjen ndermjet pages mesatare dhe numrit te punonjesve.
+```{r}
+
+library(esquisse)
+#esquisser(data.analyst, viewer = "browser")
+
+library(ggplot2)
+
+ggplot(data.analyst) +
+  aes(x = `Average Salary $`, y = `Number of employes`) +
+  geom_point(shape = "circle", size = 1.5, colour = "#3390EA") +
+  labs(x = "Paga mesatare", y = "Numri i puonjesve") +
+  theme_minimal()
+
+```
+
+-Le te ndertojme nje tabele statistikore sipas disa intervaleve te percaktuara nga ne.
+```{r}
+
+tab=table(cut(data.analyst$Rating, breaks = c(1,2,2.5,3,3.2,3.5,4,4.2,4.5,4.7,5)))
+V=c(tab)
+
+```
+
+Pas ndertimit te tabeles statistikore le te ndertojme nje tabele ne te cilen te paraqesim efektivat, efektivat e grumbulluar, frekuencat, frekuencat e grumbulluara.
+
+```{r}
+
+df=data.frame(Efektivat=V, Efektivat_e_grumbulluar=cumsum(V), Frekuenca=V/sum(V), Frekuenca_e_grumbulluar=cumsum(V/sum(V)))
+knitr::kable(df, caption = "Tabela statistikore mbi vleresimet")
+
+```
+
+Nga kjo tabele ne shohim qe efektivat dhe frekuenca me e larte eshte ndermjet vleresimeve 3,5 dhe 4, gje kjo e cila eshte paraqitur ne menyre me specifike dhe vizuale ne grafikun me kolona me siper.
+
+
+-Le te ndertojme nje dataframe sipas intervaleve te percaktuar nga ne.
+```{r}
+
+Salary=table(cut(data.analyst$`Average Salary $`,breaks=c(50000,65000,70000,75000,85000,90000,110000,120000,130000,140000,150000)))
+
+S=c(Salary)
+
+names(S) <- c( "0-50 mije $","50-65 mije $","65-70 mije $","70-85 mije $","85-90 mije $","90-110 mije $","110-120 mije $","120-130 mije $","130-140 mije $","140+ mije $") 
+
+```
+
+```{r}
+Df=data.frame(Efektivat=S,Efektivat_e_grumbulluar=cumsum(S),Frekuenca=S/sum(S),Frekuenca_e_grumbulluar=cumsum(S/sum(S)))
+
+knitr::kable(Df, caption = "Tabela e efektivave dhe frekuencave")
+```
+
+
+-Le te ndertojme nje grafik rrethor i cili paraqet perqindjet qe zene intervalet e perzgjedhura te pagesave.
+```{r}
+
+S <- c(Salary)
+
+names(S) <- c( "0-50 mije $","50-65 mije $","65-70 mije $","70-85 mije $","85-90 mije $","90-110 mije $","110-120 mije $","120-130 mije $","130-140 mije $","140+ mije $")
+
+A<-round(S/sum(S)*100,1)
+
+E<-paste(A,"%",sep="")
+
+N=rainbow(length(names(S)))
+
+pie(S, main = "Ndarja e profileve sipas pages", col=N, labels=E)
+legend("bottomleft", names(S), fill = N)
+
+```
+Shohim se perqindja me e larte e pagesave ndodhet ne intervalin 0-50 mije $. 
+
+-Ndertojme nje tabele efektivash dhe frekuencash ne lidhje me industrite e ndryshme te marre ne shqyrtim ne lidhje me kete profil.
+```{r}
+
+tab = table(data.analyst$Industry)
+B=c(tab)
+
+df=data.frame(Efektivat=B,Efektivat_e_grumbulluar=cumsum(B),Frekuenca=B/sum(B),Frekuenca_e_grumbulluar=cumsum(B/sum(B)))
+
+df
+```
+Nga kjo paraqitje tabelore efektivash ne mund te shohim qe industria me kerkesen me te larte per profilin Data Analyst eshte industria IT Services. 
+
+-Le te ndertojme tabelen e efektivave dhe frekuencave ne lidhje me vendodhjet e kompanive.
+```{r}
+
+tab = table(data.analyst$Location)
+
+C=c(tab)
+
+df=data.frame(Efektivat=C,Efektivat_grumbulluar=cumsum(C),Freq=C/sum(C),Freq_grumbulluar=cumsum(C/sum(C)))
+
+df
+
+```
+Nga kjo analize ne mund te shohim se perqendrimi me i larte i kompanive eshte ne New York.
+
+-Ndertimi i disa grafikeve kuti.
+```{r}
+
+par(mfrow = c(1,3))
+
+boxplot(data.analyst$Founded, main = "Vitet e themelimeve", col = "skyblue")
+
+boxplot(data.analyst$`Average Salary $`, main = "Pagesa mesatare", col = "red")
+
+boxplot(data.analyst$Rating , main = "Vleresimet", col = "orange")
+
+```
+Nga kjo paraqitje grafike ne arrijme ne konkluzionin qe:
+- Periudha ne te cilen jane themeluar me shume kompani eshte periudha ndermjet viteve 1980-2005.
+- Paga mesatare e punonjesve te profilit Data Analyst varion ndermjet cmimeve 55'000 - 60'000 $.
+- Vleresimet sipas profilit te punes, sektorit dhe kompanise variojne ndermjet vleresimit 3,4 dhe 4.
+Nga keto analiza ne mund te arrijme ne konkluzionin se profili Data Analyst eshte nje profil i cili vleresohet si perkundrejt pageses ashtu dhe perkundrejt mjedisit te punes. Gjithashtu duke marre parasysh faktin qe kompanite te cilat e ofrojne kete pozicion pune kane nje periudhe te gjate qe operojne ne treg, shancet jane qe do te vazhdojne te jene operative dhe per nje periudhe akoma me te gjate dhe kjo sjell nje rritje te sigurise se punesimit ne kete profil pune pas perfundimit te studimeve.
+
+-Ndertimi i grafikeve densitet.
+```{r}
+
+library(ggplot2)
+
+ggplot(data=data.analyst, aes(x=`Founded`))+geom_density(size=1.05, fill="green", alpha=0.25)+labs(y="Densiteti",x="Vitet",title = "Densiteti mbi numrin e Kompanive te themeluara sipas viteve") +theme(plot.title=element_text(color="black",face="bold.italic",size=12, hjust = 0.5))+geom_histogram(aes(y=..density..),binwidth=2, color="black", fill="blue", alpha=0.1)
+
+```
+
+```{r}
+library(ggplot2)
+
+ggplot(data=data.analyst, aes(x=`Founded`))+geom_density(size=1.05, fill="green", alpha=0.25)+labs(y="Densiteti",x="Vitet",title = "Densiteti mbi numrin e Kompanive te themeluara sipas viteve") +theme(plot.title=element_text(color="black",face="bold.italic",size=12, hjust = 0.5))+geom_histogram(aes(y=..density..),binwidth=200, color="black", fill="blue", alpha=0.1)
+```
+Sic u siperpermend, periudha e "lulezimit" te kompanive ishin vitet 1980- 2005.
+
+-Ndertimi i matrces se korrelacioneve.
+Le te marrim ne studim ndryshoret: Vitet e themelimit, Fitimin mesatar vjetor dhe numrin e punonjesve.
+```{r}
+
+library(corrplot)
+
+library(dplyr)
+
+Model <- data.analyst %>% select(Founded, `Average Revenue $`,`Number of employes`)
+
+cor.mat=cor(Model)
+
+cor.mat
+
+```
+Nga kjo analize ne mund te shohim vlera pozitive dhe negative te korrelimit te ndryshoreve te paraqitura. Bazuar ne keto vlera te paraqitura vihet re nje korrelacion i forte si pozitiv ashtu dhe negativ.
+
+-Paraqitja grafike e matrices se korrelacionit
+```{r}
+
+library(corrplot)
+corrplot(cor.mat, method = "number", type = "full")
+
+```
+
+
+```{r}
+library(GGally)
+ggpairs(Model)
+```
+
+
+```{r}
+
+Model_reg <- lm(`Average Revenue $` ~ `Number of employes`, data = data.analyst)
+
+summary(Model_reg)
+
+```
+Ekuacioni i regresit eshte: Average_Revenue = 4826000 * number of employes 3(-5654000000)
+
+-Ndertojme grafikun e regresit te thjeshte linear 
+```{r}
+
+library(ggpubr)
+
+Graf<-ggplot(data.analyst, aes(x = `Average Revenue $`,y = `Number of employes`))+
+
+  geom_point(size=1,color="red")+
+
+  geom_smooth(method="lm",color="black",formula = y~x)+
+
+  stat_cor(label.x = 0.5,label.y = 1000)+
+
+  stat_regline_equation(label.x = 0.5,label.y = 1800, size=4)+
+
+  labs(x="Fitimi mesatar vjetor",y="Numri i punonjesve",title="Regresi i thjeshte linear")
+
+Graf
+
+```
+
+                                                         
+                                                        Tabelat e kontigjences
+
+```{r}
+Tab <- table(data.analyst$`Industry`, data.analyst$`Number of employes`)
+
+addmargins(Tab)
+```
+
+-Tabela e frekuencave
+```{r}
+
+fTab <- prop.table(Tab)
+addmargins(fTab)
+
+```
+
+-Tabela e frekuencave e paraqitur ne perqindje
+```{r}
+FTab <- prop.table(Tab)*100
+
+FTab <- addmargins(FTab)
+
+round(FTab, 3)
+```
+
+-Grafiku mozaik
+
+```{r}
+mosaicplot( Tab, col = c("firebrick", "#ffa700"), cex.axis = 1, sub = "Sektori i veprimtarise", ylab = "Denduria relative", main = "")
+```
+
+
