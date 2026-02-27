@@ -1,6 +1,6 @@
 ---
 title: "R Project"
-author: "Alki Leka & Kristina Muca"
+author: "Alki Leka"
 output: html_notebook
 ---
 
